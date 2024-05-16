@@ -3,9 +3,12 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import React from "react";
 import { createClient } from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
 
 const LoginPage: React.FC = () => {
-  const jorgeClient = createClient();
+  const router = useRouter();
+
+  const supabaseClient = createClient();
 
   const {
     register,
@@ -13,12 +16,9 @@ const LoginPage: React.FC = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = async (data) =>
-    await jorgeClient.auth.signUp({
-      phone: "+5548999016305",
-      password: "123456",
-      options: {
-        channel: "sms",
-      },
+    await supabaseClient.auth.signUp({
+      email: data.email,
+      password: data.password,
     });
 
   return (
